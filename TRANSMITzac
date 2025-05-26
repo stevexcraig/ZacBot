@@ -1,11 +1,10 @@
-// TRANSMITTER CODE (RC Controller) 2!!!
-// =============================
+/*-----TRANSMIT-----*/
 
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
 /*-----( Declare Constants and Pin Numbers )-----*/
-#define CE_PIN  10
+#define CE_PIN 10
 #define CSN_PIN 9
 
 #define POT_X A0
@@ -15,30 +14,28 @@
 
 
 // NOTE: the "LL" at the end of the constant is "LongLong" type
-const uint64_t pipe = 0xE8E8F0F0E1LL; // Define the transmit pipe
+const uint64_t pipe = 0xE8E8F0F0E1LL;  // Define the transmit pipe
 
 
 /*-----( Declare objects )-----*/
-RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
+RF24 radio(CE_PIN, CSN_PIN);  // Create a Radio
 /*-----( Declare Variables )-----*/
 int pot[4];
 
 
-void setup()
-{
+void setup() {
   Serial.begin(9600);
   radio.begin();
   radio.openWritingPipe(pipe);
 }
 
 
-void loop()
-{
+void loop() {
   pot[0] = analogRead(POT_X);
   pot[1] = analogRead(POT_Y);
   pot[2] = analogRead(POT_A);
   pot[3] = analogRead(POT_B);
 
-  radio.write( pot, sizeof(pot) );
-
+  radio.write(pot, sizeof(pot));
+  Serial.println(pot[2]);
 }
